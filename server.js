@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const TOKEN = "8567789241:AAHdy0jScW6cApc7pugX3LIQHSvg5FmxC4U";
+const TOKEN = 8567789241:AAHdy0jScW6cApc7pugX3LIQHSvg5FmxC4U;
 const CHAT_ID = 5002643968;
 
 
