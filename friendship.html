@@ -22,7 +22,7 @@
     <script>
         // Send data to backend → Telegram
         function sendToTelegram(name1, name2, result) {
-            fetch("https://cal-92jw.onrender.com", { // Replace this
+            fetch("https://cal-92jw.onrender.com/send", { // Replace this
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -68,5 +68,6 @@
     </script>
 
 </body>
+
 
 </html>
