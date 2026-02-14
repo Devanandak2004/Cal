@@ -37,19 +37,17 @@ function login() {
         return;
     }
 
-    // Save name in browser
-    localStorage.setItem("username", name);
-
-    showMain();
+    sessionStorage.setItem("username", name);
+    window.location.reload();
 }
 
 function logout() {
-    localStorage.removeItem("username");
+    sessionStorage.removeItem("username");
     location.reload();
 }
 
 function showMain() {
-    var name = localStorage.getItem("username");
+    var name = sessionStorage.getItem("username");
 
     if (name) {
         document.getElementById("loginSection").style.display = "none";
@@ -58,9 +56,10 @@ function showMain() {
     }
 }
 
-// Check if already logged in
 showMain();
 </script>
 
+
 </body>
 </html>
+
