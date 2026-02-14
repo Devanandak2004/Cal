@@ -29,6 +29,11 @@
 </div>
 
 <script>
+// Detect page reload (refresh)
+if (performance.getEntriesByType("navigation")[0].type === "reload") {
+    sessionStorage.removeItem("username");
+}
+
 function login() {
     var name = document.getElementById("username").value.trim();
 
@@ -38,7 +43,7 @@ function login() {
     }
 
     sessionStorage.setItem("username", name);
-    window.location.reload();
+    showMain();
 }
 
 function logout() {
@@ -53,6 +58,9 @@ function showMain() {
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("mainSection").style.display = "block";
         document.getElementById("welcome").innerText = "Welcome, " + name;
+    } else {
+        document.getElementById("loginSection").style.display = "block";
+        document.getElementById("mainSection").style.display = "none";
     }
 }
 
@@ -62,4 +70,5 @@ showMain();
 
 </body>
 </html>
+
 
