@@ -7,8 +7,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const TOKEN = 8567789241:AAHdy0jScW6cApc7pugX3LIQHSvg5FmxC4U;
-const CHAT_ID = 5002643968;
+const TOKEN = "8567789241:AAHdWKWDrzx7LoKH4AqIxUrpoVwj1nDeWa4";
+const CHAT_ID = "5002643968";
 
 
 app.post("/send", async(req, res) => {
@@ -23,14 +23,15 @@ Result: ${data.result}
 
     const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
-    await axios.post(url, {
-        chat_id: CHAT_ID,
-        text: message
-    });
+     try {
+        await axios.post(url, {
+            chat_id: CHAT_ID,
+            text: message
+        });
 
-    res.send("Sent to Telegram");
-});
-
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+        res.send("Message sent");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error");
+    }
 });
