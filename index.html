@@ -1,22 +1,66 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Calculator Hub</title>
 </head>
 
 <body>
 
-    <h2>Welcome to Calculator Hub</h2>
+<h2>Calculator Hub</h2>
+
+<div id="loginSection">
+    <p>Enter your name to access the calculators:</p>
+    <input type="text" id="username" placeholder="Your name">
+    <button onclick="login()">Enter</button>
+    <p id="error" style="color:red;"></p>
+</div>
+
+<div id="mainSection" style="display:none;">
+    <h3 id="welcome"></h3>
 
     <p>Select a calculator:</p>
 
-    <a href="friendship.html">Friendship Calculator</a><br><br>
-    <a href="love.html">Love Calculator</a>
+    <ul>
+        <li><a href="friendship.html">Friendship Calculator</a></li>
+        <li><a href="love.html">Love Calculator</a></li>
+    </ul>
+
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+function login() {
+    var name = document.getElementById("username").value.trim();
+
+    if (name === "") {
+        document.getElementById("error").innerText = "Please enter your name.";
+        return;
+    }
+
+    // Save name in browser
+    localStorage.setItem("username", name);
+
+    showMain();
+}
+
+function logout() {
+    localStorage.removeItem("username");
+    location.reload();
+}
+
+function showMain() {
+    var name = localStorage.getItem("username");
+
+    if (name) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("mainSection").style.display = "block";
+        document.getElementById("welcome").innerText = "Welcome, " + name;
+    }
+}
+
+// Check if already logged in
+showMain();
+</script>
 
 </body>
-
-
-
 </html>
-
