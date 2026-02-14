@@ -37,7 +37,10 @@ function login() {
         return;
     }
 
+    // Save username
     sessionStorage.setItem("username", name);
+
+    // Show main section immediately
     showMain();
 }
 
@@ -48,6 +51,8 @@ function logout() {
 
 function showMain() {
     var name = sessionStorage.getItem("username");
+
+    console.log("Stored username:", name); // Debug
 
     if (name) {
         document.getElementById("loginSection").style.display = "none";
@@ -60,13 +65,17 @@ function showMain() {
 }
 
 // Run when page loads
-window.onload = showMain;
+window.onload = function () {
+    showMain();
+};
 </script>
+
 
 
 
 </body>
 </html>
+
 
 
 
