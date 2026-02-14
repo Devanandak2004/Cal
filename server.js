@@ -8,8 +8,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Replace with NEW token from BotFather
-const TOKEN = process.env.8567789241:AAHZDaO-Oc37bDmo-JSqgSEco712mTgPrgs;
-const CHAT_ID = process.env.5002643968;
+const TOKEN = "8567789241:AAHZDaO-Oc37bDmo-JSqgSEco712mTgPrgs";
+const CHAT_ID = "5002643968";
 
 
 // Test route
