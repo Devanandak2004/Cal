@@ -29,7 +29,8 @@
 <script>
 
 // ===== Login Protection =====
-var loggedUser = localStorage.getItem("username");
+var loggedUser = sessionStorage.getItem("username");
+
 
 if (!loggedUser) {
     window.location.href = "index.html";
@@ -126,3 +127,4 @@ function calculateLove() {
 
 </body>
 </html>
+
