@@ -8,8 +8,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Replace with NEW token from BotFather
-const TOKEN = "8567789241:AAHSExmBKymVY1VxzXy51B5rczd5OV18sdA";
-const CHAT_ID = "5002643968";
+const TOKEN = process.env.TELEGRAM_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
+
 
 // Test route
 app.get("/", (req, res) => {
