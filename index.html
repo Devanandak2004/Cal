@@ -29,11 +29,6 @@
 </div>
 
 <script>
-// Detect page reload (refresh)
-if (performance.getEntriesByType("navigation")[0].type === "reload") {
-    sessionStorage.removeItem("username");
-}
-
 function login() {
     var name = document.getElementById("username").value.trim();
 
@@ -64,11 +59,14 @@ function showMain() {
     }
 }
 
-showMain();
+// Run when page loads
+window.onload = showMain;
 </script>
+
 
 
 </body>
 </html>
+
 
 
