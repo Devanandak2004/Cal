@@ -24,6 +24,7 @@ app.post("/send", async (req, res) => {
 const message = `
 ${data.source}
 
+User: ${data.user}
 Name1: ${data.name1}
 Name2: ${data.name2}
 Result: ${data.result}
