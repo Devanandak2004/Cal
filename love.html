@@ -34,6 +34,7 @@ function sendToTelegram(name1, name2, result) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            source: "Love Calculator",
             name1: name1,
             name2: name2,
             result: result
@@ -116,3 +117,4 @@ function calculateLove() {
 
 </body>
 </html>
+
