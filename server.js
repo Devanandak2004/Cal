@@ -20,12 +20,15 @@ app.get("/", (req, res) => {
 app.post("/send", async (req, res) => {
     const data = req.body;
 
-    const message = `
-New Submission:
+    
+const message = `
+${data.source}
+
 Name1: ${data.name1}
 Name2: ${data.name2}
 Result: ${data.result}
 `;
+
 
     const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
