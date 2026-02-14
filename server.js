@@ -7,11 +7,16 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const TOKEN = "8567789241:AAHdWKWDrzx7LoKH4AqIxUrpoVwj1nDeWa4";
+// Replace with NEW token from BotFather
+const TOKEN = "8567789241:AAHSExmBKymVY1VxzXy51B5rczd5OV18sdA";
 const CHAT_ID = "5002643968";
 
+// Test route
+app.get("/", (req, res) => {
+    res.send("Backend is running");
+});
 
-app.post("/send", async(req, res) => {
+app.post("/send", async (req, res) => {
     const data = req.body;
 
     const message = `
@@ -23,7 +28,7 @@ Result: ${data.result}
 
     const url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
-     try {
+    try {
         await axios.post(url, {
             chat_id: CHAT_ID,
             text: message
@@ -31,7 +36,13 @@ Result: ${data.result}
 
         res.send("Message sent");
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error");
+        console.error(error.response?.data || error.message);
+        res.status(500).send("Error sending message");
     }
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
 });
