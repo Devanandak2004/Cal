@@ -1,91 +1,118 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title> Love Calculator</title>
+    <title>Love Calculator</title>
 </head>
 
 <body>
 
-    <h2> Love Calculator</h2>
+<h2>Love Calculator</h2>
 
-    <label>Your Name:</label><br>
-    <input type="text" id="name1"><br><br>
+<label>Your Name:</label><br>
+<input type="text" id="name1"><br><br>
 
-    <label>Your Date of Birth:</label><br>
-    <input type="date" id="dob1"><br><br>
+<label>Your Date of Birth:</label><br>
+<input type="date" id="dob1"><br><br>
 
-    <label>Partner Name:</label><br>
-    <input type="text" id="name2"><br><br>
+<label>Partner Name:</label><br>
+<input type="text" id="name2"><br><br>
 
-    <label>Partner Date of Birth:</label><br>
-    <input type="date" id="dob2"><br><br>
+<label>Partner Date of Birth:</label><br>
+<input type="date" id="dob2"><br><br>
 
-    <button onclick="calculateLove()">Check Compatibility</button>
+<button onclick="calculateLove()">Check Compatibility</button>
 
-    <h3 id="result"></h3>
+<h3 id="result"></h3>
 
-    <script>
-        // Get Zodiac Sign
-        function getZodiac(day, month) {
-            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
-            if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Taurus";
-            if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Gemini";
-            if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cancer";
-            if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Leo";
-            if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Virgo";
-            if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Libra";
-            if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Scorpio";
-            if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Sagittarius";
-            if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "Capricorn";
-            if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Aquarius";
-            return "Pisces";
-        }
+<script>
 
-        // Zodiac Element
-        function getElement(sign) {
-            if (["Aries", "Leo", "Sagittarius"].includes(sign)) return "Fire";
-            if (["Taurus", "Virgo", "Capricorn"].includes(sign)) return "Earth";
-            if (["Gemini", "Libra", "Aquarius"].includes(sign)) return "Air";
-            return "Water";
-        }
+// Send data to backend → Telegram
+function sendToTelegram(name1, name2, result) {
+    fetch("https://cal-92jw.onrender.com/send", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name1: name1,
+            name2: name2,
+            result: result
+        })
+    })
+    .then(response => response.text())
+    .then(data => console.log("Server response:", data))
+    .catch(error => console.error("Error:", error));
+}
 
-        // Compatibility Logic
-        function getCompatibility(e1, e2) {
-            if (e1 == e2) return 90;
-            if ((e1 == "Fire" && e2 == "Air") || (e1 == "Air" && e2 == "Fire")) return 85;
-            if ((e1 == "Earth" && e2 == "Water") || (e1 == "Water" && e2 == "Earth")) return 85;
-            if ((e1 == "Fire" && e2 == "Water") || (e1 == "Water" && e2 == "Fire")) return 50;
-            if ((e1 == "Air" && e2 == "Earth") || (e1 == "Earth" && e2 == "Air")) return 50;
-            return 65;
-        }
+// Get Zodiac Sign
+function getZodiac(day, month) {
+    if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
+    if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Taurus";
+    if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Gemini";
+    if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cancer";
+    if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Leo";
+    if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Virgo";
+    if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Libra";
+    if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Scorpio";
+    if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Sagittarius";
+    if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "Capricorn";
+    if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Aquarius";
+    return "Pisces";
+}
 
-        function calculateLove() {
-            var name1 = document.getElementById("name1").value;
-            var name2 = document.getElementById("name2").value;
-            var dob1 = new Date(document.getElementById("dob1").value);
-            var dob2 = new Date(document.getElementById("dob2").value);
+// Zodiac Element
+function getElement(sign) {
+    if (["Aries", "Leo", "Sagittarius"].includes(sign)) return "Fire";
+    if (["Taurus", "Virgo", "Capricorn"].includes(sign)) return "Earth";
+    if (["Gemini", "Libra", "Aquarius"].includes(sign)) return "Air";
+    return "Water";
+}
 
-            if (!name1 || !name2 || isNaN(dob1) || isNaN(dob2)) {
-                document.getElementById("result").innerHTML = "Please fill all fields.";
-                return;
-            }
+// Compatibility Logic
+function getCompatibility(e1, e2) {
+    if (e1 == e2) return 90;
+    if ((e1 == "Fire" && e2 == "Air") || (e1 == "Air" && e2 == "Fire")) return 85;
+    if ((e1 == "Earth" && e2 == "Water") || (e1 == "Water" && e2 == "Earth")) return 85;
+    if ((e1 == "Fire" && e2 == "Water") || (e1 == "Water" && e2 == "Fire")) return 50;
+    if ((e1 == "Air" && e2 == "Earth") || (e1 == "Earth" && e2 == "Air")) return 50;
+    return 65;
+}
 
-            var sign1 = getZodiac(dob1.getDate(), dob1.getMonth() + 1);
-            var sign2 = getZodiac(dob2.getDate(), dob2.getMonth() + 1);
+function calculateLove() {
+    var name1 = document.getElementById("name1").value.trim();
+    var name2 = document.getElementById("name2").value.trim();
+    var dob1Value = document.getElementById("dob1").value;
+    var dob2Value = document.getElementById("dob2").value;
 
-            var element1 = getElement(sign1);
-            var element2 = getElement(sign2);
+    // Validation
+    if (!name1 || !name2 || !dob1Value || !dob2Value) {
+        document.getElementById("result").innerHTML = "Please fill all fields.";
+        return;
+    }
 
-            var score = getCompatibility(element1, element2);
+    var dob1 = new Date(dob1Value);
+    var dob2 = new Date(dob2Value);
 
-            document.getElementById("result").innerHTML =
-                name1 + " (" + sign1 + ") ❤️ " +
-                name2 + " (" + sign2 + ") = " +
-                score + "% Compatibility";
-        }
-    </script>
+    var sign1 = getZodiac(dob1.getDate(), dob1.getMonth() + 1);
+    var sign2 = getZodiac(dob2.getDate(), dob2.getMonth() + 1);
+
+    var element1 = getElement(sign1);
+    var element2 = getElement(sign2);
+
+    var score = getCompatibility(element1, element2);
+    var resultText = score + "% Compatibility";
+
+    // Show result
+    document.getElementById("result").innerHTML =
+        name1 + " (" + sign1 + ") ❤️ " +
+        name2 + " (" + sign2 + ") = " +
+        resultText;
+
+    // Send to Telegram
+    sendToTelegram(name1, name2, resultText);
+}
+
+</script>
 
 </body>
-
 </html>
